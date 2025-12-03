@@ -16,17 +16,12 @@ struct DailyForecast: Identifiable, Codable, Sendable, Equatable {
   let minTemp: Double
 
   var dateString: String {
-    Self.dateFormatter.string(from: date)
+    Self.isoFormatter.string(from: date)
   }
 
-  private static let dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.calendar = .init(identifier: .iso8601)
-    formatter.locale = .init(identifier: "en_GB")
-    formatter.timeZone = .gmt
-    formatter.dateFormat = "yyyy-MM-dd"
-    return formatter
-  }()
+  var longDate: String {
+    dateString.asLongDate
+  }
 
   static func make(
     dateString: String,
@@ -34,7 +29,7 @@ struct DailyForecast: Identifiable, Codable, Sendable, Equatable {
     max: Double,
     min: Double
   ) -> DailyForecast? {
-    guard let date = dateFormatter.date(from: dateString) else { return nil }
+    guard let date = isoFormatter.date(from: dateString) else { return nil }
     return .init(
       date: date,
       weatherCode: weatherCode,
@@ -42,4 +37,22 @@ struct DailyForecast: Identifiable, Codable, Sendable, Equatable {
       minTemp: min
     )
   }
+}
+
+extension DailyForecast {
+  static let isoFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.calendar = .init(identifier: .iso8601)
+    f.locale = .init(identifier: "en_GB")
+    f.timeZone = .gmt
+    f.dateFormat = "yyyy-MM-dd"
+    return f
+  }()
+
+  static let longFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.locale = .init(identifier: "en_GB")
+    f.dateFormat = "d MMMM yyyy"
+    return f
+  }()
 }

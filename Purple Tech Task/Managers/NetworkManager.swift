@@ -6,24 +6,39 @@
 //
 
 import Network
+import Foundation
 
 protocol NetworkManagerProtocol: Sendable {
   var isOnline: Bool { get }
+  func networkPublisher() -> AsyncStream<Bool>
 }
 
-final class NetworkManager: NetworkManagerProtocol, Sendable {
+final class NetworkManager: NetworkManagerProtocol, @unchecked Sendable {
   static let shared = NetworkManager()
 
   private let monitor = NWPathMonitor()
-  private var currentStatus = true
+  private let queue = DispatchQueue(label: "NetworkMonitor")
 
-  init() {
+  private var currentStatus: Bool = true
+
+  var isOnline: Bool {
+    currentStatus
+  }
+
+  private init() {
     monitor.pathUpdateHandler = { [weak self] path in
       self?.currentStatus = path.status == .satisfied
     }
-    let queue = DispatchQueue(label: "NetworkMonitorQueue")
     monitor.start(queue: queue)
   }
 
-  var isOnline: Bool { currentStatus }
+  func networkPublisher() -> AsyncStream<Bool> {
+    AsyncStream { continuation in
+      monitor.pathUpdateHandler = { [weak self] path in
+        let isConnected = path.status == .satisfied
+        self?.currentStatus = isConnected
+        continuation.yield(isConnected)
+      }
+    }
+  }
 }

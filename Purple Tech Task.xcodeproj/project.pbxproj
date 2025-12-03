@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F4AE86C2EE0AD0D006D4E1C /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 1F4AE86B2EE0AD0D006D4E1C /* ComposableArchitecture */; };
+		1F4AE8FF2EE0BA50006D4E1C /* Atlantis in Frameworks */ = {isa = PBXBuildFile; productRef = 1F4AE8FE2EE0BA50006D4E1C /* Atlantis */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,33 +34,9 @@
 		1FDE60B22EE0AA4500933D0C /* Purple Tech TaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Purple Tech TaskUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		1F4AE8F12EE0B1A4006D4E1C /* Exceptions for "Purple Tech Task" folder in "Purple Tech Task" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Helpers/DateFormatter+Extension.swift",
-			);
-			target = 1FDE609A2EE0AA4400933D0C /* Purple Tech Task */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		1F4AE8F22EE0B1A4006D4E1C /* Exceptions for "Purple Tech Task" folder in "Copy Bundle Resources" phase from "Purple Tech Task" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 1FDE60992EE0AA4400933D0C /* Resources */;
-			membershipExceptions = (
-				"Helpers/DateFormatter+Extension.swift",
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		1FDE609D2EE0AA4400933D0C /* Purple Tech Task */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				1F4AE8F12EE0B1A4006D4E1C /* Exceptions for "Purple Tech Task" folder in "Purple Tech Task" target */,
-				1F4AE8F22EE0B1A4006D4E1C /* Exceptions for "Purple Tech Task" folder in "Copy Bundle Resources" phase from "Purple Tech Task" target */,
-			);
 			path = "Purple Tech Task";
 			sourceTree = "<group>";
 		};
@@ -80,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F4AE8FF2EE0BA50006D4E1C /* Atlantis in Frameworks */,
 				1F4AE86C2EE0AD0D006D4E1C /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,6 +120,7 @@
 			name = "Purple Tech Task";
 			packageProductDependencies = (
 				1F4AE86B2EE0AD0D006D4E1C /* ComposableArchitecture */,
+				1F4AE8FE2EE0BA50006D4E1C /* Atlantis */,
 			);
 			productName = "Purple Tech Task";
 			productReference = 1FDE609B2EE0AA4400933D0C /* Purple Tech Task.app */;
@@ -227,6 +206,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				1F4AE86A2EE0AD0D006D4E1C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				1F4AE8FD2EE0BA50006D4E1C /* XCRemoteSwiftPackageReference "atlantis" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1FDE609C2EE0AA4400933D0C /* Products */;
@@ -433,11 +413,15 @@
 				DEVELOPMENT_TEAM = DK9FCM477U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Purple-Tech-Task-Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Weather needs your location to show a local 7-day forecast.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Weather needs your location to show forecast.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -465,11 +449,15 @@
 				DEVELOPMENT_TEAM = DK9FCM477U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Purple-Tech-Task-Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Weather needs your location to show a local 7-day forecast.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Weather needs your location to show forecast.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -621,6 +609,14 @@
 				minimumVersion = 1.23.1;
 			};
 		};
+		1F4AE8FD2EE0BA50006D4E1C /* XCRemoteSwiftPackageReference "atlantis" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ProxymanApp/atlantis";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.31.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -628,6 +624,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1F4AE86A2EE0AD0D006D4E1C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		1F4AE8FE2EE0BA50006D4E1C /* Atlantis */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F4AE8FD2EE0BA50006D4E1C /* XCRemoteSwiftPackageReference "atlantis" */;
+			productName = Atlantis;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

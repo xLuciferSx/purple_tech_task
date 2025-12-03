@@ -8,27 +8,31 @@
 import Foundation
 
 struct AppEnvironment {
-  var weatherClient: WeatherForecastManagerProtocol
+  var weatherManager: WeatherForecastManagerProtocol
   var offlineWeatherManager: OfflineWeatherManagerProtocol
   var networkManager: NetworkManagerProtocol
+  var locationManager: LocationManagerProtocol
 }
 
 extension AppEnvironment {
   static let live = AppEnvironment(
-    weatherClient: WeatherForecastManager(),
+    weatherManager: WeatherForecastManager(),
     offlineWeatherManager: OfflineWeatherManager.shared,
-    networkManager: NetworkManager.shared
+    networkManager: NetworkManager.shared,
+    locationManager: LocationManager.shared
   )
 
   static func mock(
-    weatherClient: WeatherForecastManagerProtocol = WeatherForecastManager(),
+    weatherManager: WeatherForecastManagerProtocol = WeatherForecastManager(),
     offlineWeatherManager: OfflineWeatherManagerProtocol = OfflineWeatherManager.shared,
-    networkManager: NetworkManagerProtocol = NetworkManager.shared
+    networkManager: NetworkManagerProtocol = NetworkManager.shared,
+    locationManager: LocationManagerProtocol = LocationManager.shared
   ) -> AppEnvironment {
     AppEnvironment(
-      weatherClient: weatherClient,
+      weatherManager: weatherManager,
       offlineWeatherManager: offlineWeatherManager,
-      networkManager: networkManager
+      networkManager: networkManager,
+      locationManager: locationManager
     )
   }
 }
