@@ -11,7 +11,7 @@ import SwiftUI
 struct Purple_Tech_TaskApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WeatherForecastView()
         }
     }
 }

@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1F4AE86C2EE0AD0D006D4E1C /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 1F4AE86B2EE0AD0D006D4E1C /* ComposableArchitecture */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		1FDE60A92EE0AA4500933D0C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -29,9 +33,33 @@
 		1FDE60B22EE0AA4500933D0C /* Purple Tech TaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Purple Tech TaskUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		1F4AE8F12EE0B1A4006D4E1C /* Exceptions for "Purple Tech Task" folder in "Purple Tech Task" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Helpers/DateFormatter+Extension.swift",
+			);
+			target = 1FDE609A2EE0AA4400933D0C /* Purple Tech Task */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		1F4AE8F22EE0B1A4006D4E1C /* Exceptions for "Purple Tech Task" folder in "Copy Bundle Resources" phase from "Purple Tech Task" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 1FDE60992EE0AA4400933D0C /* Resources */;
+			membershipExceptions = (
+				"Helpers/DateFormatter+Extension.swift",
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		1FDE609D2EE0AA4400933D0C /* Purple Tech Task */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1F4AE8F12EE0B1A4006D4E1C /* Exceptions for "Purple Tech Task" folder in "Purple Tech Task" target */,
+				1F4AE8F22EE0B1A4006D4E1C /* Exceptions for "Purple Tech Task" folder in "Copy Bundle Resources" phase from "Purple Tech Task" target */,
+			);
 			path = "Purple Tech Task";
 			sourceTree = "<group>";
 		};
@@ -52,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F4AE86C2EE0AD0D006D4E1C /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +141,7 @@
 			);
 			name = "Purple Tech Task";
 			packageProductDependencies = (
+				1F4AE86B2EE0AD0D006D4E1C /* ComposableArchitecture */,
 			);
 			productName = "Purple Tech Task";
 			productReference = 1FDE609B2EE0AA4400933D0C /* Purple Tech Task.app */;
@@ -195,6 +225,9 @@
 			);
 			mainGroup = 1FDE60922EE0AA4400933D0C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1F4AE86A2EE0AD0D006D4E1C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1FDE609C2EE0AA4400933D0C /* Products */;
 			projectDirPath = "";
@@ -578,6 +611,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1F4AE86A2EE0AD0D006D4E1C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.23.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1F4AE86B2EE0AD0D006D4E1C /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F4AE86A2EE0AD0D006D4E1C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1FDE60932EE0AA4400933D0C /* Project object */;
 }
