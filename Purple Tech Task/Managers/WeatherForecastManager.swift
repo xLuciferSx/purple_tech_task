@@ -10,14 +10,14 @@ import Foundation
 
 protocol WeatherForecastManagerProtocol: Sendable {
   func fetch7DayForecast(for coordinate: CLLocationCoordinate2D) async throws -> [DailyForecast]
-  func fetch7DayForecastWithCacheState(for coordinate: CLLocationCoordinate2D) async throws -> (forecasts: [DailyForecast], cached: Bool)
+  func fetch7DayForecastWithCacheState(for coordinate: CLLocationCoordinate2D) async throws -> (forecasts: [DailyForecast], fromCache: Bool)
 }
 
 enum WeatherForecastManagerError: Error, Equatable {
   case invalidURL
   case invalidResponse(statusCode: Int)
   case decoding
-  case noCachedData
+  case noData
 }
 
 struct WeatherForecastManager: WeatherForecastManagerProtocol, Sendable {
@@ -33,7 +33,7 @@ struct WeatherForecastManager: WeatherForecastManagerProtocol, Sendable {
     self.decoder = decoder
   }
 
-  func fetch7DayForecastWithCacheState(for coordinate: CLLocationCoordinate2D) async throws -> (forecasts: [DailyForecast], cached: Bool) {
+  func fetch7DayForecastWithCacheState(for coordinate: CLLocationCoordinate2D) async throws -> (forecasts: [DailyForecast], fromCache: Bool) {
     guard let url = Self.makeURL(coordinate: coordinate) else {
       throw WeatherForecastManagerError.invalidURL
     }
@@ -45,18 +45,12 @@ struct WeatherForecastManager: WeatherForecastManagerProtocol, Sendable {
         let http = response as? HTTPURLResponse,
         (200 ..< 300).contains(http.statusCode)
       else {
-        if let cached = try offlineManager.loadForecast() {
-          return (cached, true)
-        }
         throw WeatherForecastManagerError.invalidResponse(
           statusCode: (response as? HTTPURLResponse)?.statusCode ?? -1
         )
       }
 
       guard let weather = try? decoder.decode(WeatherResponse.self, from: data) else {
-        if let cached = try offlineManager.loadForecast() {
-          return (cached, true)
-        }
         throw WeatherForecastManagerError.decoding
       }
 
@@ -83,10 +77,10 @@ struct WeatherForecastManager: WeatherForecastManagerProtocol, Sendable {
 
       return (final, false)
     } catch {
-      if let cached = try offlineManager.loadForecast() {
+      if let cached = try offlineManager.loadForecast(), !cached.isEmpty {
         return (cached, true)
       }
-      throw WeatherForecastManagerError.noCachedData
+      throw WeatherForecastManagerError.noData
     }
   }
 

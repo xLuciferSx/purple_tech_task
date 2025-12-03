@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1F4AE86C2EE0AD0D006D4E1C /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 1F4AE86B2EE0AD0D006D4E1C /* ComposableArchitecture */; };
-		1F4AE8FF2EE0BA50006D4E1C /* Atlantis in Frameworks */ = {isa = PBXBuildFile; productRef = 1F4AE8FE2EE0BA50006D4E1C /* Atlantis */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +56,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F4AE8FF2EE0BA50006D4E1C /* Atlantis in Frameworks */,
 				1F4AE86C2EE0AD0D006D4E1C /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -120,7 +118,6 @@
 			name = "Purple Tech Task";
 			packageProductDependencies = (
 				1F4AE86B2EE0AD0D006D4E1C /* ComposableArchitecture */,
-				1F4AE8FE2EE0BA50006D4E1C /* Atlantis */,
 			);
 			productName = "Purple Tech Task";
 			productReference = 1FDE609B2EE0AA4400933D0C /* Purple Tech Task.app */;
@@ -206,7 +203,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				1F4AE86A2EE0AD0D006D4E1C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
-				1F4AE8FD2EE0BA50006D4E1C /* XCRemoteSwiftPackageReference "atlantis" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1FDE609C2EE0AA4400933D0C /* Products */;
@@ -609,14 +605,6 @@
 				minimumVersion = 1.23.1;
 			};
 		};
-		1F4AE8FD2EE0BA50006D4E1C /* XCRemoteSwiftPackageReference "atlantis" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ProxymanApp/atlantis";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.31.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -624,11 +612,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1F4AE86A2EE0AD0D006D4E1C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
-		};
-		1F4AE8FE2EE0BA50006D4E1C /* Atlantis */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1F4AE8FD2EE0BA50006D4E1C /* XCRemoteSwiftPackageReference "atlantis" */;
-			productName = Atlantis;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

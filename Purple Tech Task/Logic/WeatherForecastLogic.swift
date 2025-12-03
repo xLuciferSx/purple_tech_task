@@ -17,20 +17,22 @@ struct WeatherForecastLogic {
     var isCached = false
     var lastUpdated: Date?
     var error: String?
+    var snackbarMessage: String?
     var showSnackbar = false
     var snackbarColor: SnackbarColor = .red
   }
 
   enum Action: Equatable, Sendable {
     case onAppear
-    case fetchSucceeded(forecasts: [DailyForecast], cached: Bool)
-    case fetchFailed
     case networkChanged(Bool)
-    case dismissSnackbar
+    case fetchSucceeded(forecasts: [DailyForecast], fromCache: Bool)
+    case fetchFailed
+    case autoHideSnackbar
   }
 
   @Injected(\.weatherManager) private var weatherManager
   @Injected(\.locationManager) private var locationManager
+  @Injected(\.networkManager) private var networkManager
 
   var body: some Reducer<State, Action> {
     Reduce { state, action in
@@ -38,50 +40,79 @@ struct WeatherForecastLogic {
         case .onAppear:
           state.isLoading = true
           state.error = nil
-          state.isCached = false
           state.showSnackbar = false
 
-          return .run { send async in
-            do {
-              let coordinate = try await locationManager.currentLocation()
-              let result = try await weatherManager.fetch7DayForecastWithCacheState(for: coordinate)
-              await send(.fetchSucceeded(forecasts: result.forecasts, cached: result.cached))
-            } catch {
-              await send(.fetchFailed)
+          return .merge(
+            .run { send async in
+              for await isOnline in networkManager.networkPublisher() {
+                await send(.networkChanged(isOnline))
+              }
+            },
+
+            .run { send async in
+              do {
+                let coordinate = try await locationManager.currentLocation()
+                let result = try await weatherManager.fetch7DayForecastWithCacheState(for: coordinate)
+                await send(.fetchSucceeded(forecasts: result.forecasts, fromCache: result.fromCache))
+              } catch {
+                await send(.fetchFailed)
+              }
+            }
+          )
+
+        case let .networkChanged(online):
+          if !online {
+            state.snackbarMessage = "No internet connection"
+            state.snackbarColor = .red
+            state.showSnackbar = true
+
+            return .run { send in
+              try await Task.sleep(for: .seconds(3))
+              await send(.autoHideSnackbar)
+            }
+          } else {
+            state.snackbarMessage = "Back online"
+            state.snackbarColor = .green
+            state.showSnackbar = true
+
+            return .run { send in
+              try await Task.sleep(for: .seconds(3))
+              await send(.autoHideSnackbar)
             }
           }
 
-        case let .fetchSucceeded(forecasts, cached):
+        case let .fetchSucceeded(forecasts, fromCache):
           state.isLoading = false
           state.forecasts = forecasts
-          state.isCached = cached
+          state.isCached = fromCache
           state.lastUpdated = Date()
           state.error = nil
-          state.showSnackbar = false
+
+          if fromCache {
+            state.snackbarMessage = "Offline. Showing last updated data."
+            state.snackbarColor = .red
+            state.showSnackbar = true
+
+            return .run { send in
+              try await Task.sleep(for: .seconds(3))
+              await send(.autoHideSnackbar)
+            }
+          }
+
           return .none
 
         case .fetchFailed:
           state.isLoading = false
+
           if state.forecasts.isEmpty {
             state.error = "Cannot fetch data. Please check your network connection."
           } else {
             state.error = nil
-            state.showSnackbar = true
           }
-          return .none
-          
-        case let .networkChanged(online):
-          if online {
-            state.error = "Back online"
-            state.snackbarColor = .green
-          } else {
-            state.error = "No internet connection"
-            state.snackbarColor = .red
-          }
-          state.showSnackbar = true
+
           return .none
 
-        case .dismissSnackbar:
+        case .autoHideSnackbar:
           state.showSnackbar = false
           return .none
       }

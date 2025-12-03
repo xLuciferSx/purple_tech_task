@@ -9,59 +9,76 @@ import ComposableArchitecture
 import SwiftUI
 
 struct WeatherForecastView: View {
+  @Injected(\.networkManager) var networkManager
   @State var store: StoreOf<WeatherForecastLogic>
 
   var body: some View {
     NavigationStack {
       ZStack(alignment: .bottom) {
-        Group {
-          if store.isLoading {
-            ProgressView()
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
-          } else if let error = store.error, store.forecasts.isEmpty {
-            VStack(spacing: 12) {
-              Image(systemName: "wifi.exclamationmark")
-                .font(.system(size: 44))
-                .foregroundStyle(.orange)
-              Text(error)
-                .padding(.horizontal)
-                .multilineTextAlignment(.center)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-          } else {
-            ScrollView {
-              LazyVStack(spacing: 12) {
-                if store.isCached, let last = store.lastUpdated {
-                  Text("Last updated at \(last.asLongDateTime)")
-                    .font(.caption)
-                    .foregroundStyle(.blue)
-                    .padding(.top, 6)
-                }
+        content
 
-                ForEach(Array(store.forecasts.enumerated()), id: \.offset) { index, item in
-                  WeatherDayCell(item: item, isToday: index == 0)
-                    .padding(.horizontal)
-                }
-              }
-              .padding(.top, 8)
-            }
-          }
-        }
-      }
-      .overlay(alignment: .bottom) {
-        if store.showSnackbar, let message = store.error {
+        if store.showSnackbar, let message = store.snackbarMessage {
           Snackbar(
             text: message,
             background: store.snackbarColor == .red ? .red : .green
           ) {
-            store.send(.dismissSnackbar)
+            store.send(.autoHideSnackbar)
           }
           .transition(.move(edge: .bottom).combined(with: .opacity))
+          .padding(.bottom, 10)
+          .padding(.horizontal)
+        }
+      }
+      .task {
+        for await isOnline in networkManager.networkPublisher() {
+          store.send(.networkChanged(isOnline))
         }
       }
       .animation(.spring(), value: store.showSnackbar)
       .navigationTitle(store.forecasts.isEmpty ? "" : "7-Day Forecast")
       .onAppear { store.send(.onAppear) }
+    }
+  }
+}
+
+private extension WeatherForecastView {
+  @ViewBuilder
+  var content: some View {
+    if store.isLoading {
+      ProgressView()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    else if let error = store.error, store.forecasts.isEmpty {
+      VStack(spacing: 12) {
+        Image(systemName: "wifi.exclamationmark")
+          .font(.system(size: 44))
+          .foregroundStyle(.orange)
+
+        Text(error)
+          .padding(.horizontal)
+          .multilineTextAlignment(.center)
+      }
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    else {
+      ScrollView {
+        LazyVStack(spacing: 12) {
+          if store.isCached, let last = store.lastUpdated {
+            Text("Last updated at \(last.asLongDateTime)")
+              .font(.caption)
+              .foregroundStyle(.blue)
+              .padding(.top, 6)
+          }
+
+          ForEach(Array(store.forecasts.enumerated()), id: \.offset) { index, item in
+            WeatherDayCell(item: item, isToday: index == 0)
+              .padding(.horizontal)
+          }
+        }
+        .padding(.top, 8)
+      }
     }
   }
 }
