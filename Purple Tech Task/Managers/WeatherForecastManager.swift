@@ -21,7 +21,7 @@ enum WeatherForecastManagerError: Error, Equatable {
 }
 
 struct WeatherForecastManager: WeatherForecastManagerProtocol, Sendable {
-  @Injected(\.offlineWeatherManager) private var offlineManager
+  @Injected(\.offlineManager) private var offlineManager
 
   private let session: URLSession
   private let decoder: JSONDecoder

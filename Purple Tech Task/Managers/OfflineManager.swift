@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol OfflineWeatherManagerProtocol: Sendable {
+protocol OfflineManagerProtocol: Sendable {
   func saveForecast(_ items: [DailyForecast]) throws
   func loadForecast() throws -> [DailyForecast]?
 }
 
-final class OfflineWeatherManager: OfflineWeatherManagerProtocol, Sendable {
-  static let shared = OfflineWeatherManager()
+final class OfflineManager: OfflineManagerProtocol, Sendable {
+  static let shared = OfflineManager()
 
   private let url: URL = {
     let dir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!

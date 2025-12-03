@@ -20,6 +20,7 @@ struct WeatherForecastLogic {
     var snackbarMessage: String?
     var showSnackbar = false
     var snackbarColor: SnackbarColor = .red
+    var isNetworkAvailable: Bool = true
   }
 
   enum Action: Equatable, Sendable {
@@ -61,24 +62,14 @@ struct WeatherForecastLogic {
           )
 
         case let .networkChanged(online):
-          if !online {
-            state.snackbarMessage = "No internet connection"
-            state.snackbarColor = .red
-            state.showSnackbar = true
+          state.isNetworkAvailable = online
+          state.snackbarMessage = online ? "Back online" : "No internet connection"
+          state.snackbarColor = online ? .green : .red
+          state.showSnackbar = true
 
-            return .run { send in
-              try await Task.sleep(for: .seconds(3))
-              await send(.autoHideSnackbar)
-            }
-          } else {
-            state.snackbarMessage = "Back online"
-            state.snackbarColor = .green
-            state.showSnackbar = true
-
-            return .run { send in
-              try await Task.sleep(for: .seconds(3))
-              await send(.autoHideSnackbar)
-            }
+          return .run { send in
+            try await Task.sleep(for: .seconds(3))
+            await send(.autoHideSnackbar)
           }
 
         case let .fetchSucceeded(forecasts, fromCache):

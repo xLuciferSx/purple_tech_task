@@ -9,7 +9,7 @@ import Foundation
 
 struct AppEnvironment {
   var weatherManager: WeatherForecastManagerProtocol
-  var offlineWeatherManager: OfflineWeatherManagerProtocol
+  var offlineManager: OfflineManagerProtocol
   var networkManager: NetworkManagerProtocol
   var locationManager: LocationManagerProtocol
 }
@@ -17,20 +17,20 @@ struct AppEnvironment {
 extension AppEnvironment {
   static let live = AppEnvironment(
     weatherManager: WeatherForecastManager(),
-    offlineWeatherManager: OfflineWeatherManager.shared,
+    offlineManager: OfflineManager.shared,
     networkManager: NetworkManager.shared,
     locationManager: LocationManager.shared
   )
 
   static func mock(
     weatherManager: WeatherForecastManagerProtocol = WeatherForecastManager(),
-    offlineWeatherManager: OfflineWeatherManagerProtocol = OfflineWeatherManager.shared,
+    offlineManager: OfflineManagerProtocol = OfflineManager.shared,
     networkManager: NetworkManagerProtocol = NetworkManager.shared,
     locationManager: LocationManagerProtocol = LocationManager.shared
   ) -> AppEnvironment {
     AppEnvironment(
       weatherManager: weatherManager,
-      offlineWeatherManager: offlineWeatherManager,
+      offlineManager: offlineManager,
       networkManager: networkManager,
       locationManager: locationManager
     )
