@@ -61,6 +61,10 @@ struct WeatherForecastLogic {
           )
 
         case let .networkChanged(online):
+          if state.isNetworkAvailable == online {
+            return .none
+          }
+
           state.isNetworkAvailable = online
           state.snackbarMessage = online ? "Back online" : "No internet connection"
           state.snackbarColor = online ? .green : .red
