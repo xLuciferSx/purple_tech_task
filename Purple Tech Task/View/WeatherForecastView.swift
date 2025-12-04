@@ -30,7 +30,7 @@ struct WeatherForecastView: View {
         }
       }
       .animation(.spring(), value: store.showSnackbar)
-      .navigationTitle(store.forecasts.isEmpty ? "" : "7-Day Forecast")
+      .navigationTitle(store.isNetworkAvailable ? "7-Day Forecast" : "7-Day Forecast: Offline")
       .onAppear { store.send(.onAppear) }
     }
   }
@@ -60,7 +60,7 @@ private extension WeatherForecastView {
     else {
       ScrollView {
         LazyVStack(spacing: 12) {
-          if store.isCached, let last = store.lastUpdated {
+          if !store.isNetworkAvailable, let last = store.lastUpdated {
             Text("Last updated at \(last.asLongDateTime)")
               .font(.caption)
               .foregroundStyle(.blue)
