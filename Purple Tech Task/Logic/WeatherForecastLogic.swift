@@ -45,11 +45,10 @@ struct WeatherForecastLogic {
 
           return .merge(
             .run { send async in
-              for await isOnline in networkManager.networkPublisher() {
-                await send(.networkChanged(isOnline))
+              for await online in networkManager.updates {
+                await send(.networkChanged(online))
               }
             },
-
             .run { send async in
               do {
                 let coordinate = try await locationManager.currentLocation()

@@ -10,7 +10,7 @@ import Foundation
 
 protocol NetworkManagerProtocol: Sendable {
   var isOnline: Bool { get }
-  func networkPublisher() -> AsyncStream<Bool>
+  var updates: AsyncStream<Bool> { get }
 }
 
 final class NetworkManager: NetworkManagerProtocol, @unchecked Sendable {
@@ -19,26 +19,27 @@ final class NetworkManager: NetworkManagerProtocol, @unchecked Sendable {
   private let monitor = NWPathMonitor()
   private let queue = DispatchQueue(label: "NetworkMonitor")
 
-  private var currentStatus: Bool = true
+  private var continuation: AsyncStream<Bool>.Continuation?
+  private(set) var isOnline = true
 
-  var isOnline: Bool {
-    currentStatus
-  }
+  let updates: AsyncStream<Bool>
 
   private init() {
-    monitor.pathUpdateHandler = { [weak self] path in
-      self?.currentStatus = path.status == .satisfied
-    }
-    monitor.start(queue: queue)
-  }
+    var tempContinuation: AsyncStream<Bool>.Continuation?
 
-  func networkPublisher() -> AsyncStream<Bool> {
-    AsyncStream { continuation in
-      monitor.pathUpdateHandler = { [weak self] path in
-        let isConnected = path.status == .satisfied
-        self?.currentStatus = isConnected
-        continuation.yield(isConnected)
-      }
+    self.updates = AsyncStream { continuation in
+      tempContinuation = continuation
     }
+
+    self.continuation = tempContinuation
+
+    monitor.pathUpdateHandler = { [weak self] path in
+      guard let self else { return }
+      let online = (path.status == .satisfied)
+      self.isOnline = online
+      self.continuation?.yield(online)
+    }
+
+    monitor.start(queue: queue)
   }
 }

@@ -29,11 +29,6 @@ struct WeatherForecastView: View {
           .padding(.horizontal)
         }
       }
-      .task {
-        for await isOnline in networkManager.networkPublisher() {
-          store.send(.networkChanged(isOnline))
-        }
-      }
       .animation(.spring(), value: store.showSnackbar)
       .navigationTitle(store.forecasts.isEmpty ? "" : "7-Day Forecast")
       .onAppear { store.send(.onAppear) }
